@@ -287,7 +287,7 @@ export default {
                 // Find the day in "days" array of objects then add the values.
                 // There can be multiple items in the array with the same day.
 
-                let newIndex = days.findIndex(item => item.day === day);
+                let newIndex = days.map(function (item) { return item.day; }).indexOf(day);
 
                 if (newIndex === arrIndex) {
                     newIndex++;
@@ -314,7 +314,7 @@ export default {
 
                 let day = moment(1000 * item.data.created_utc).format('YYYY-MM-DD');
 
-                let newIndex = days.findIndex(item => item.day === day);
+                let newIndex = days.map(function (item) { return item.day; }).indexOf(day);
 
                 if (newIndex === arrIndex) {
                     newIndex++;
