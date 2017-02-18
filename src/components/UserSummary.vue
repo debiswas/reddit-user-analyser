@@ -3,7 +3,7 @@
         <div class="container">
 
             <h2>Overview for <a target="_blank" :href="userLink">/u/{{username}}</a></h2>
-            <p class="subtext">Joined reddit <strong>{{ date('relative', about.created_utc) }}</strong> ({{ date('utc', about.created_utc) }})</p>
+            <p class="subtext">Joined Reddit <strong>{{ date('relative', about.created_utc) }}</strong> ({{ date('utc', about.created_utc) }})</p>
             <p><small>*Data is available from 1000 comments and 1000 submissions ago (Reddit API limitations)</small></p>
 
             <hr>
@@ -133,11 +133,11 @@
             <div class="row">
                 <div class="col-md-6">
                     <h3>Best comment</h3>
-                    <comment :data="mostUpvotedComment"><comment>
+                    <comment :data="mostUpvotedComment"></comment>
                 </div>
                 <div class="col-md-6">
                     <h3>Worst comment</h3>
-                    <comment :data="mostDownvotedComment"><comment>
+                    <comment :data="mostDownvotedComment"></comment>
                 </div>
             </div>
 
@@ -562,7 +562,6 @@ input[type=range]::-webkit-slider-runnable-track {
   width: 100%;
   height: 12.8px;
   cursor: pointer;
-  animate: 0.2s;
   box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
   background: linear-gradient(135deg, #00bec7, #0073e8);
   border-radius: 25px;
@@ -587,7 +586,6 @@ input[type=range]::-moz-range-track {
   width: 100%;
   height: 12.8px;
   cursor: pointer;
-  animate: 0.2s;
   box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
   background: linear-gradient(135deg, #00bec7, #0073e8);
   border-radius: 25px;
@@ -607,7 +605,6 @@ input[type=range]::-ms-track {
   width: 100%;
   height: 12.8px;
   cursor: pointer;
-  animate: 0.2s;
   background: transparent;
   border-color: transparent;
   border-width: 39px 0;

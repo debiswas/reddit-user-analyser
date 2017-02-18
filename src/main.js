@@ -4,6 +4,7 @@ import Vue from 'vue'
 import VueResource from 'vue-resource'
 import App from './App'
 import Ripple from './assets/Ripple'
+import 'babel-polyfill';
 
 Vue.use(VueResource)
 
