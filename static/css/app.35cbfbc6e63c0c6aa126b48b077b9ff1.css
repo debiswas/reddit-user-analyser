@@ -37,6 +37,7 @@
 }
 }
 body {
+  font-family: 'Avenir', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   background-color: #271b68;
 }
 #app {
@@ -372,7 +373,6 @@ section.summary {
   border-top: 3px solid #7755ff;
 }
 h2, h3 {
-  font-family: 'Avenir', sans-serif;
   font-size: 2rem;
   font-weight: 300;
   text-align: center;
@@ -422,7 +422,6 @@ a:hover {
             transform: scale(1.1);
 }
 .card--dark small {
-    font-family: 'Avenir', sans-serif;
     opacity: 0.8;
 }
 ul li:hover a {
@@ -668,9 +667,6 @@ input:checked + .slider:before {
   color: #00ccff;
   font-weight: bold;
 }
-.comment-info {
-  font-family: 'Avenir', sans-serif;
-}
 .controversial {
   font-weight: 700;
   color: #ff5600;
@@ -688,4 +684,4 @@ a:hover {
     background-color: rgba(0, 150, 255, 0.1);
 }
 
-/*# sourceMappingURL=app.e12d17d27b7f54159df3932e9829a365.css.map*/
+/*# sourceMappingURL=app.35cbfbc6e63c0c6aa126b48b077b9ff1.css.map*/
