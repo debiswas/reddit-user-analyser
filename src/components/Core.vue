@@ -8,7 +8,7 @@
                   <span class="input-group-addon" id="u-addon">/u/</span>
                   <input @keyup.enter="fetchData()" v-model="username" type="text" class="form-control username-input" placeholder="Username" aria-describedby="u-addon">
                   <span class="input-group-btn">
-                      <button @click="fetchData()" class="btn btn-secondary" type="button" :disabled="disableBtn">Analyse</button>
+                      <button @click="fetchData()" class="btn btn-secondary" type="button" :disabled="isLoading">Analyse</button>
                   </span>
                 </div>
             </div>
@@ -58,7 +58,7 @@ $(function(){
 });
 
 export default {
-  name: 'main',
+  name: 'core',
   components: {
       UserSummary
   },
@@ -78,7 +78,7 @@ export default {
     }
   },
   mounted() {
-      this.$watch('username', function () {
+      this.$watch('username', () => {
          this.reset();
       });
       /*
@@ -96,9 +96,6 @@ export default {
       finishedLoading() {
           if (!this.comments.length && !this.submitted.length) return;
           if (this.finished.comments && this.finished.submitted) return true;
-      },
-      disableBtn() {
-          if (this.isLoading) return true;
       }
   },
   methods: {
@@ -122,59 +119,55 @@ export default {
 
           this.isLoading = true;
 
-          this.fetchAbout(this.username);
-          this.fetchCombined('comments', this.username);
-          this.fetchCombined('submitted', this.username);
+          this.fetchAbout();
+          this.fetchCombined('comments');
+          this.fetchCombined('submitted');
       },
       fetchAbout(username) {
-          const vm = this;
-
-          this.$http.get(`https://www.reddit.com/user/${username}/about/.json`)
-          .then(function(response){
-              vm.about = response.body.data;
-          }).catch(function(response){
+          this.$http.get(`https://www.reddit.com/user/${this.username}/about/.json`)
+          .then((response) => {
+              this.about = response.body.data;
+          }).catch((response) => {
               if (response.status === 404) {
-                  vm.notFound = true;
-                  vm.isLoading = false;
+                  this.notFound = true;
+                  this.isLoading = false;
               }
           });
       },
-      fetchCombined(type, username, after = "") {
-          const vm = this;
-
-          this.$http.get(`https://www.reddit.com/user/${username}/${type}.json?limit=100&after=${after}`)
-          .then(function(response){
+      fetchCombined(type, after = "") {
+          this.$http.get(`https://www.reddit.com/user/${this.username}/${type}.json?limit=100&after=${after}`)
+          .then((response) => {
               let arr = response.body.data.children;
 
               // No more posts
               if (!arr.length) {
-                  vm.isLoading = false;
-                  vm.finished[type] = true;
-                  if (!vm[type].length && this.finished.comments && this.finished.submitted && !vm.comments.length && !vm.submitted.length)
-                      vm.noPosts = true;
+                  this.isLoading = false;
+                  this.finished[type] = true;
+                  if (!this[type].length && this.finished.comments && this.finished.submitted && !this.comments.length && !this.submitted.length)
+                      this.noPosts = true;
                   return;
               }
 
               // Add additional posts to array
-              arr.forEach(function(item){
-                  vm[type].push(item);
+              arr.forEach((item) => {
+                  this[type].push(item);
               });
 
               // If there's (almost certainly) more, recursively fetch more
               if (arr.length == 100) {
-                  vm.fetchCombined(type, username, arr[99].data.name);
+                  this.fetchCombined(type, arr[99].data.name);
                   return;
               }
 
-            vm.finished[type] = true;
+            this.finished[type] = true;
 
-            if (vm.finished.comments && vm.finished.submitted)
-                vm.isLoading = false;
+            if (this.finished.comments && this.finished.submitted)
+                this.isLoading = false;
 
-          }).catch(function(response){
+          }).catch((response) => {
               if (response.status === 404) {
-                  vm.notFound = true;
-                  vm.isLoading = false;
+                  this.notFound = true;
+                  this.isLoading = false;
               }
           });
       }
