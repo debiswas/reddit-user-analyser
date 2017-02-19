@@ -657,6 +657,7 @@ input:checked + .slider:before {
     margin-bottom: 0.5rem;
 }
 .comment code {
+    background-color: #3e3e7b;
     color: white;
 }
 .orangered-color {
@@ -684,4 +685,4 @@ a:hover {
     background-color: rgba(0, 150, 255, 0.1);
 }
 
-/*# sourceMappingURL=app.35cbfbc6e63c0c6aa126b48b077b9ff1.css.map*/
+/*# sourceMappingURL=app.7edde7b969bb589043b291d90293d3b8.css.map*/
