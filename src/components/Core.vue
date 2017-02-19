@@ -123,11 +123,11 @@ export default {
           this.fetchCombined('comments');
           this.fetchCombined('submitted');
       },
-      fetchAbout(username) {
+      fetchAbout() {
           this.$http.get(`https://www.reddit.com/user/${this.username}/about/.json`)
-          .then((response) => {
+          .then(response => {
               this.about = response.body.data;
-          }).catch((response) => {
+          }).catch(response => {
               if (response.status === 404) {
                   this.notFound = true;
                   this.isLoading = false;
@@ -136,7 +136,7 @@ export default {
       },
       fetchCombined(type, after = "") {
           this.$http.get(`https://www.reddit.com/user/${this.username}/${type}.json?limit=100&after=${after}`)
-          .then((response) => {
+          .then(response => {
               let arr = response.body.data.children;
 
               // No more posts
@@ -149,7 +149,7 @@ export default {
               }
 
               // Add additional posts to array
-              arr.forEach((item) => {
+              arr.forEach(item => {
                   this[type].push(item);
               });
 
@@ -164,7 +164,7 @@ export default {
             if (this.finished.comments && this.finished.submitted)
                 this.isLoading = false;
 
-          }).catch((response) => {
+          }).catch(response => {
               if (response.status === 404) {
                   this.notFound = true;
                   this.isLoading = false;

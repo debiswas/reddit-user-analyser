@@ -278,7 +278,7 @@ export default {
             let arrIndex = 0;
 
             // Comments
-            this.comments.slice(0).reverse().forEach((item) => {
+            this.comments.slice(0).reverse().forEach(item => {
                 daysWithComments.push(item);
 
                 this.commentKarma += item.data.score;
@@ -310,7 +310,7 @@ export default {
             arrIndex = 0; // reset
 
             // Submissions
-            this.submitted.slice(0).reverse().forEach((item) => {
+            this.submitted.slice(0).reverse().forEach(item => {
 
                 let day = moment(1000 * item.data.created_utc).format('YYYY-MM-DD');
 
@@ -356,7 +356,7 @@ export default {
             let text = '';
             let frequencies = [];
 
-            this.comments.forEach((item) => {
+            this.comments.forEach(item => {
                 text += item.data.body + ' ';
             });
 
@@ -376,7 +376,7 @@ export default {
             let saidANiceWord = 0;
             let filteredWords = [];
 
-            words.forEach((word) => {
+            words.forEach(word => {
                 word = word.toLowerCase();
                 if (isNaN(parseFloat(word)) && !isFinite(word)) {
                     if (!stopWords.includes(word)) {
@@ -429,7 +429,7 @@ export default {
             while (sentenceRegex.exec(text) !== null) {
                 totalSentences++;
             }
-            words.forEach((word) => {
+            words.forEach(word => {
                 totalSyllables += numSyllables(word);
             });
             return 100 - Math.round(
@@ -461,7 +461,7 @@ export default {
             if (comments.length < 5) return 0;
             let count = 0;
 
-            comments.forEach((item) => {
+            comments.forEach(item => {
                 if (item.data.controversiality == 1) {
                     count += 1;
                 }
@@ -494,7 +494,7 @@ export default {
 
             let days = [];
 
-            this.allDays.forEach((day) => {
+            this.allDays.forEach(day => {
                 if (counter % daysToRemove === 0) {
                     days.push(day);
                 }
@@ -510,7 +510,7 @@ export default {
             let cumulativeNumSubmitted = 0;
             let cumulativeSubmittedKarma = 0;
 
-            this.allDays.forEach((day) => {
+            this.allDays.forEach(day => {
                 cumulativeNumComments += day.numComments;
                 cumulativeCommentKarma += day.commentKarma;
                 cumulativeNumSubmitted += day.numSubmitted;
