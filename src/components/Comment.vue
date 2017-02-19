@@ -71,10 +71,6 @@ export default {
         font-weight: bold;
     }
 
-    .comment-info {
-        font-family: 'Avenir', sans-serif;
-    }
-
     .controversial {
         font-weight: 700;
         color: #ff5600;

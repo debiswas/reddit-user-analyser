@@ -81,13 +81,11 @@ export default {
       this.$watch('username', () => {
          this.reset();
       });
-      /*
-      // Auto fetch (unable to work on GH Pages)
-      if (window.location.pathname !== '/') {
-          this.username = window.location.pathname.split('/').pop().trim();
+      // Auto fetch
+      if (window.location.hash !== '') {
+          this.username = window.location.hash.split('#').pop().trim();
           this.fetchData();
       }
-      */
   },
   computed: {
       valid() {
@@ -108,14 +106,12 @@ export default {
           this.submitted = [];
       },
       fetchData() {
-          if (this.username === "") return;
+          if (this.username === "" || /[^a-zA-Z0-9_-]/.test(this.username)) return;
 
           this.reset();
 
           document.title = `Overview for ${this.username} – Reddit User Analyser`;
-          /*
-          window.history.replaceState({}, "", `${this.username}`);
-          */
+          window.history.replaceState({}, "", `#${this.username}`);
 
           this.isLoading = true;
 
@@ -191,6 +187,15 @@ export default {
     $btn-width: 125px;
 
     body {
+        font-family: 'Avenir', -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Roboto,
+                Oxygen-Sans,
+                Ubuntu,
+                Cantarell,
+                "Helvetica Neue",
+                sans-serif;
         background-color: #271b68;
     }
     #app {

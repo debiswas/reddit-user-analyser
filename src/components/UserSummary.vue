@@ -689,7 +689,6 @@ section.summary {
 }
 
 h2 {
-    font-family: 'Avenir', sans-serif;
     font-size: 2rem;
     font-weight: 300;
     text-align: center;
@@ -741,7 +740,6 @@ a {
         }
 
         small {
-            font-family: 'Avenir', sans-serif;
             opacity: 0.8;
         }
 
