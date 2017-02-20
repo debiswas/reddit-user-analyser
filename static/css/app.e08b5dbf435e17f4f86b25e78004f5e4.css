@@ -572,6 +572,9 @@ section.summary {
 label {
   margin-bottom: 0;
 }
+canvas {
+  margin-bottom: 1rem;
+}
 .switch {
   position: relative;
   display: block;
@@ -589,9 +592,9 @@ label {
             justify-content: center;
 }
 .chart-switch p {
-    margin-bottom: 6px;
-    margin-right: .5rem;
-    margin-left: 1rem;
+    margin-bottom: 0.25rem;
+    margin-right: 0;
+    margin-left: 0;
 }
 
 /* Hide default HTML checkbox */
@@ -647,6 +650,11 @@ input:checked + .slider:before {
     border-radius: 50%;
 }
 @media (min-width: 992px) {
+.chart-switch p {
+    margin-bottom: 0;
+    margin-right: 1rem;
+    margin-left: 1rem;
+}
 .switch-wrapper {
     display: -webkit-box;
     display: -webkit-flex;
@@ -695,4 +703,4 @@ a:hover {
     background-color: rgba(0, 150, 255, 0.1);
 }
 
-/*# sourceMappingURL=app.91185be632eb96d26510b532149c95a3.css.map*/
+/*# sourceMappingURL=app.e08b5dbf435e17f4f86b25e78004f5e4.css.map*/
