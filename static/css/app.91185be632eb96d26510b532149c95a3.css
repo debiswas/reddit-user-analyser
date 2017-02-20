@@ -85,9 +85,6 @@ header::before {
     background-position: center;
     background-size: contain;
 }
-header h1 {
-    font-family: 'Avenir', sans-serif;
-}
 h1 {
   font-weight: 300;
   margin-bottom: 2rem;
@@ -376,7 +373,7 @@ h2, h3 {
   font-size: 2rem;
   font-weight: 300;
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1.25rem;
   font-weight: 500;
 }
 h3 {
@@ -577,9 +574,10 @@ label {
 }
 .switch {
   position: relative;
-  display: inline-block;
+  display: block;
   width: 60px;
   height: 34px;
+  margin: auto;
 }
 .chart-switch {
   margin-bottom: 1rem;
@@ -648,6 +646,18 @@ input:checked + .slider:before {
 .slider.round::before {
     border-radius: 50%;
 }
+@media (min-width: 992px) {
+.switch-wrapper {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+}
+.switch {
+    display: inline-block;
+    margin: 0;
+}
+}
 
 .comment {
   word-wrap: break-word;
@@ -685,4 +695,4 @@ a:hover {
     background-color: rgba(0, 150, 255, 0.1);
 }
 
-/*# sourceMappingURL=app.7edde7b969bb589043b291d90293d3b8.css.map*/
+/*# sourceMappingURL=app.91185be632eb96d26510b532149c95a3.css.map*/
