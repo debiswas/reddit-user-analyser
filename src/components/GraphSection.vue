@@ -2,19 +2,19 @@
         <div>
             <h3>{{ title }}</h3>
             <div v-show="type !== 'controversiality'" class="chart-switch row">
-                <div class="col d-flex align-items-center">
-                    <p>Cumulative</p>
-                    <label class="switch">
-                        <input checked type="checkbox" @click="displayCumulativeGraph(type)">
-                        <div class="slider round"></div>
-                    </label>
+                <div class="col align-items-center switch-wrapper">
+                        <p>Cumulative</p>
+                        <label class="switch">
+                            <input checked type="checkbox" @click="displayCumulativeGraph(type)">
+                            <div class="slider round"></div>
+                        </label>
                 </div>
-                <div class="col d-flex align-items-center">
-                    <p>Smooth</p>
-                    <label class="switch">
-                        <input checked type="checkbox" @click="displaySmoothGraph(type)">
-                        <div class="slider round"></div>
-                    </label>
+                <div class="col align-items-center switch-wrapper">
+                        <p>Smooth</p>
+                        <label class="switch">
+                            <input checked type="checkbox" @click="displaySmoothGraph(type)">
+                            <div class="slider round"></div>
+                        </label>
                 </div>
             </div>
             <chart :id="id" :days="days" :allDays="allDays" :cumulative="cumulativeSwitches[type]" :smooth="smoothSwitches[type]"></chart>
@@ -67,9 +67,10 @@ label {
 
 .switch {
   position: relative;
-  display: inline-block;
+  display: block;
   width: 60px;
   height: 34px;
+  margin: auto;
 }
 
 .chart-switch {
@@ -134,5 +135,15 @@ input:checked + .slider:before {
   &::before {
       border-radius: 50%;
   }
+}
+
+@media (min-width: 992px) {
+    .switch-wrapper {
+        display: flex;
+    }
+    .switch {
+        display: inline-block;
+        margin: 0;
+    }
 }
 </style>

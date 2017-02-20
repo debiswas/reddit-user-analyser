@@ -244,10 +244,6 @@ export default {
             background-position: center;
             background-size: contain;
         }
-
-        h1 {
-            font-family: 'Avenir', sans-serif;
-        }
     }
     h1 {
         font-weight: 300;

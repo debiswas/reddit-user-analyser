@@ -692,7 +692,7 @@ h2 {
     font-size: 2rem;
     font-weight: 300;
     text-align: center;
-    margin-bottom: 2rem;
+    margin-bottom: 1.25rem;
     font-weight: 500;
 }
 h3 {
