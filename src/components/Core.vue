@@ -179,12 +179,7 @@ export default {
      * Copyright (c) 2014 Jacob Kelley */
     .has-ripple{position:relative;overflow:hidden;-webkit-transform:translate3d(0,0,0);-o-transform:translate3d(0,0,0);transform:translate3d(0,0,0)}.ripple{display:block;position:absolute;pointer-events:none;border-radius:50%;-webkit-transform:scale(0);-o-transform:scale(0);transform:scale(0);background:#fff;opacity:1}.ripple-animate{-webkit-animation:ripple;-o-animation:ripple;animation:ripple}@-webkit-keyframes ripple{100%{opacity:0;-webkit-transform:scale(2);transform:scale(2)}}@-o-keyframes ripple{100%{opacity:0;-o-transform:scale(2);transform:scale(2)}}@keyframes ripple{100%{opacity:0;transform:scale(2)}}
 
-    @mixin shadow($color) {
-        box-shadow: 0 6px 25px -2px $color;
-    }
-
     $text: #aebed4;
-    $btn-width: 125px;
 
     body {
         font-family: 'Avenir', -apple-system,
@@ -254,10 +249,6 @@ export default {
         &--username {
             position: relative;
         }
-        .form-control:not(:first-child):not(:last-child) {
-            border-top-right-radius: 4px;
-            border-bottom-right-radius: 4px;
-        }
     }
     .username-input {
         position: relative;
@@ -267,6 +258,8 @@ export default {
         box-shadow: 0 5px 12px -2px rgba(0,0,0,0.3);
         font-weight: 300;
         color: lighten($text, 10);
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
 
         &:hover {
             box-shadow: 0 10px 30px -2px rgba(0,0,0,0.3);
@@ -281,22 +274,19 @@ export default {
 
         &::-webkit-input-placeholder {
             color: rgba(255,255,255,0.4);
+            font-size: 1.1rem;
         }
         &::-moz-input-placeholder {
             color: rgba(255,255,255,0.4);
+            font-size: 1.1rem;
         }
         &:-ms-input-placeholder {
             color: rgba(255,255,255,0.4);
+            font-size: 1.1rem;
         }
     }
     .input-group-addon {
         padding: 0 1rem;
-    }
-    .input-group-btn {
-        position: absolute;
-        z-index: 10;
-        right: 0;
-        height: 100%;
     }
     .btn {
         background-color: transparent;
@@ -306,8 +296,10 @@ export default {
         font-weight: 500;
         font-size: 17px !important;
         cursor: pointer;
-        width: $btn-width;
         z-index: 1;
+        padding: 0 1rem !important;
+        font-size: 0.95rem !important;
+        box-shadow: 0 5px 12px -2px rgba(0,0,0,0.3);
 
         &:disabled {
             background-color: rgba(255,255,255,0.1);
@@ -375,6 +367,32 @@ export default {
                 background-color: #a6d5e6;
                 animation-delay: 0.3s;
             }
+        }
+    }
+    .input-group-btn {
+        background: rgba(0,10,25,0.5);
+        border: 1px solid rgba(0,0,0,0.4);
+        border-left: none;
+        border-top-right-radius: 4px;
+        border-bottom-right-radius: 4px;
+    }
+    @media (min-width: 576px) {
+
+        .username-input {
+            &::-webkit-input-placeholder {
+                font-size: 1.25rem;
+            }
+            &::-moz-input-placeholder {
+                font-size: 1.25rem;
+            }
+            &:-ms-input-placeholder {
+                font-size: 1.25rem;
+            }
+        }
+
+        .btn {
+            padding: 0 1.5rem !important;
+            font-size: 1rem !important;
         }
     }
 </style>
