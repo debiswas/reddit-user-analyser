@@ -689,6 +689,7 @@ section.summary {
 }
 
 h2 {
+    word-wrap: break-word;
     font-size: 2rem;
     font-weight: 300;
     text-align: center;

@@ -94,6 +94,8 @@ h1 {
   position: relative;
 }
 .username-input {
+  font-size: 1.1rem !important;
+  padding: 0.8rem 1rem !important;
   position: relative;
   background: rgba(0, 10, 25, 0.5);
   border: 1px solid rgba(0, 0, 0, 0.4);
@@ -137,8 +139,8 @@ h1 {
   font-size: 17px !important;
   cursor: pointer;
   z-index: 1;
-  padding: 0 1rem !important;
-  font-size: 0.95rem !important;
+  padding: 1rem !important;
+  font-size: 0.9rem !important;
   box-shadow: 0 5px 12px -2px rgba(0, 0, 0, 0.3);
 }
 .btn:disabled {
@@ -228,14 +230,18 @@ h1 {
   border-bottom-right-radius: 4px;
 }
 @media (min-width: 576px) {
+.username-input {
+    font-size: 1.25rem !important;
+    padding: 0.75rem 1.5rem !important;
+}
 .username-input::-webkit-input-placeholder {
-    font-size: 1.25rem;
+      font-size: 1.25rem;
 }
 .username-input::-moz-input-placeholder {
-    font-size: 1.25rem;
+      font-size: 1.25rem;
 }
 .username-input:-ms-input-placeholder {
-    font-size: 1.25rem;
+      font-size: 1.25rem;
 }
 .btn {
     padding: 0 1.5rem !important;
@@ -389,6 +395,7 @@ section.summary {
   border-top: 3px solid #7755ff;
 }
 h2, h3 {
+  word-wrap: break-word;
   font-size: 2rem;
   font-weight: 300;
   text-align: center;
@@ -722,4 +729,4 @@ a:hover {
     background-color: rgba(0, 150, 255, 0.1);
 }
 
-/*# sourceMappingURL=app.ea3d06a0af93808b15a18aaa8856f1d3.css.map*/
+/*# sourceMappingURL=app.4e67180c70e7cb3516bc37e48ae9963e.css.map*/

@@ -251,6 +251,8 @@ export default {
         }
     }
     .username-input {
+        font-size: 1.1rem !important;
+        padding: 0.8rem 1rem !important;
         position: relative;
         background: rgba(0,10,25,0.5);
         border: 1px solid rgba(0,0,0,0.4);
@@ -297,8 +299,8 @@ export default {
         font-size: 17px !important;
         cursor: pointer;
         z-index: 1;
-        padding: 0 1rem !important;
-        font-size: 0.95rem !important;
+        padding: 1rem !important;
+        font-size: 0.9rem !important;
         box-shadow: 0 5px 12px -2px rgba(0,0,0,0.3);
 
         &:disabled {
@@ -379,6 +381,9 @@ export default {
     @media (min-width: 576px) {
 
         .username-input {
+            font-size: 1.25rem !important;
+            padding: 0.75rem 1.5rem !important;
+
             &::-webkit-input-placeholder {
                 font-size: 1.25rem;
             }
