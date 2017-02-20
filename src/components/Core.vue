@@ -6,7 +6,7 @@
                 <h1>Analyse a Reddit user</h1>
                 <div class="input-group input-group-lg input-group--username">
                   <span class="input-group-addon" id="u-addon">/u/</span>
-                  <input @keyup.enter="fetchData()" v-model="username" type="text" class="form-control username-input" placeholder="Username" aria-describedby="u-addon">
+                  <input @keyup.enter="fetchData()" v-model="username" type="text" class="form-control username-input" placeholder="Username" aria-describedby="u-addon" autocapitalize="off" autocorrect="off">
                   <span class="input-group-btn">
                       <button @click="fetchData()" class="btn btn-secondary" type="button" :disabled="isLoading">Analyse</button>
                   </span>

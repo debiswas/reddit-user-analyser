@@ -132,10 +132,12 @@
 
             <div class="row">
                 <div class="col-md-6">
-                    <comment :data="mostUpvotedComment" title="Best"></comment>
+                    <h3>Best comment</h3>
+                    <comment :data="mostUpvotedComment"></comment>
                 </div>
                 <div class="col-md-6">
-                    <comment :data="mostDownvotedComment" title="Worst"></comment>
+                    <h3>Worst comment</h3>
+                    <comment :data="mostDownvotedComment"></comment>
                 </div>
             </div>
 
