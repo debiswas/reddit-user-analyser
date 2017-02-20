@@ -65,6 +65,10 @@ label {
     margin-bottom: 0;
 }
 
+canvas {
+    margin-bottom: 1rem;
+}
+
 .switch {
   position: relative;
   display: block;
@@ -79,9 +83,9 @@ label {
         justify-content: center;
     }
     p {
-        margin-bottom: 6px;
-        margin-right: .5rem;
-        margin-left: 1rem;
+        margin-bottom: 0.25rem;
+        margin-right: 0;
+        margin-left: 0;
     }
 }
 
@@ -138,6 +142,13 @@ input:checked + .slider:before {
 }
 
 @media (min-width: 992px) {
+    .chart-switch {
+        p {
+            margin-bottom: 0;
+            margin-right: 1rem;
+            margin-left: 1rem;
+        }
+    }
     .switch-wrapper {
         display: flex;
     }
