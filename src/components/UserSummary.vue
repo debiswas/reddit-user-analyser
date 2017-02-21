@@ -83,16 +83,16 @@
                 <div class="col-md-6">
                     <graph-section id="commentActivity-chart"
                                    type="commentActivity"
-                                   :days="days"
-                                   :allDays="allDays"
+                                   :days="daysComments"
+                                   :allDays="allDaysComments"
                                    title="Comment activity over time">
                     </graph-section>
                 </div>
                 <div class="col-md-6">
                     <graph-section id="commentKarma-chart"
                                    type="commentKarma"
-                                   :days="days"
-                                   :allDays="allDays"
+                                   :days="daysComments"
+                                   :allDays="allDaysComments"
                                    title="Comment karma over time">
                     </graph-section>
                 </div>
@@ -104,16 +104,16 @@
                 <div class="col-md-6">
                     <graph-section id="submittedActivity-chart"
                                    type="submittedActivity"
-                                   :days="days"
-                                   :allDays="allDays"
+                                   :days="daysSubmitted"
+                                   :allDays="allDaysSubmitted"
                                    title="Submission activity over time">
                     </graph-section>
                 </div>
                 <div class="col-md-6">
                     <graph-section id="submittedKarma-chart"
                                    type="submittedKarma"
-                                   :days="days"
-                                   :allDays="allDays"
+                                   :days="daysSubmitted"
+                                   :allDays="allDaysSubmitted"
                                    title="Submission karma over time">
                     </graph-section>
                 </div>
@@ -123,8 +123,8 @@
 
             <graph-section id="controversiality-chart"
                            type="controversiality"
-                           :days="days"
-                           :allDays="allDays"
+                           :days="daysComments"
+                           :allDays="allDaysComments"
                            title="Controversiality over time">
             </graph-section>
 
@@ -169,8 +169,10 @@ export default {
             submittedKarma: 0,
             subredditCounts: [],
             wordCounts: [],
-            days: [],
-            allDays: [],
+            daysComments: [],
+            daysSubmitted: [],
+            allDaysComments: [],
+            allDaysSubmitted: [],
             numSubreddits: 10,
             numFrequentWords: 15,
             badWordIncidence: 0,
@@ -272,24 +274,19 @@ export default {
             this.submittedKarma = 0;
             this.subreddits = {};
 
-            let days;
-            let daysWithComments = [];
-            let arrIndex = 0;
-
-            // Determine the first day was from a submission or comment
-            if (!this.submitted || moment(1000 * this.comments[this.comments.length - 1].data.created_utc).unix() <= moment(1000 * this.submitted[this.submitted.length - 1].data.created_utc).unix() ) {
-                // Comment was first
-                days = this.createSequenceOfDays(
-                    moment(1000 * this.comments[this.comments.length - 1].data.created_utc).format('YYYY-MM-DD'), // most recent (end of arr)
-                    moment(1000 * this.comments[0].data.created_utc).format('YYYY-MM-DD') // earliest (beginning of arr)
-                );
-            } else {
-                // Submission was first
-                days = this.createSequenceOfDays(
+            let daysComments = this.createSequenceOfDays(
+                moment(1000 * this.comments[this.comments.length - 1].data.created_utc).format('YYYY-MM-DD'), // most recent (end of arr)
+                moment(1000 * this.comments[0].data.created_utc).format('YYYY-MM-DD') // earliest (beginning of arr)
+            );
+            let daysSubmitted = [];
+            if (this.submitted) {
+                daysSubmitted = this.createSequenceOfDays(
                     moment(1000 * this.submitted[this.submitted.length - 1].data.created_utc).format('YYYY-MM-DD'), // most recent (end of arr)
                     moment(1000 * this.submitted[0].data.created_utc).format('YYYY-MM-DD') // earliest (beginning of arr)
                 );
             }
+            let daysWithComments = [];
+            let arrIndex = 0;
 
             // Comments
             this.comments.slice(0).reverse().forEach(item => {
@@ -301,16 +298,16 @@ export default {
                 // Find the day in "days" array of objects then add the values.
                 // There can be multiple items in the array with the same day.
 
-                let newIndex = days.findIndex(item => item.day === day);
+                let newIndex = daysComments.findIndex(item => item.day === day);
                 if (newIndex === arrIndex) {
                     newIndex++;
                 }
                 arrIndex = newIndex;
 
-                if (days[arrIndex]) {
-                    days[arrIndex].numComments += 1;
-                    days[arrIndex].commentKarma += item.data.score;
-                    days[arrIndex].avgControversy = this.calculateControversiality(daysWithComments);
+                if (daysComments[arrIndex]) {
+                    daysComments[arrIndex].numComments += 1;
+                    daysComments[arrIndex].commentKarma += item.data.score;
+                    daysComments[arrIndex].avgControversy = this.calculateControversiality(daysWithComments);
                 }
 
                 if (this.subreddits.hasOwnProperty(item.data.subreddit)) {
@@ -328,15 +325,15 @@ export default {
 
                 let day = moment(1000 * item.data.created_utc).format('YYYY-MM-DD');
 
-                let newIndex = days.findIndex(item => item.day === day);
+                let newIndex = daysSubmitted.findIndex(item => item.day === day);
                 if (newIndex === arrIndex) {
                     newIndex++;
                 }
                 arrIndex = newIndex;
 
-                if (days[arrIndex]) {
-                    days[arrIndex].numSubmitted += 1;
-                    days[arrIndex].submittedKarma += item.data.score;
+                if (daysSubmitted[arrIndex]) {
+                    daysSubmitted[arrIndex].numSubmitted += 1;
+                    daysSubmitted[arrIndex].submittedKarma += item.data.score;
                 }
 
                 if (this.subreddits.hasOwnProperty(item.data.subreddit)) {
@@ -346,7 +343,8 @@ export default {
                 }
             });
 
-            this.allDays = days.slice(0);
+            this.allDaysComments = daysComments.slice(0);
+            this.allDaysSubmitted = daysSubmitted.slice(0);
             this.smoothGraph();
             this.cumulative();
 
@@ -510,37 +508,57 @@ export default {
             }
         },
         smoothGraph() {
-            let numDays = this.allDays.length;
-            if (numDays < 50)
-                numDays = 50;
-            const daysToRemove = Math.round(numDays/50);
-            let counter = 0;
+            let numDaysComments = this.allDaysComments.length;
+            let numDaysSubmitted = this.allDaysSubmitted.length;
 
-            let days = [];
+            if (numDaysComments < 50) {
+                numDaysComments = 50;
+            }
+            if (numDaysSubmitted < 50) {
+                numDaysSubmitted = 50;
+            }
 
-            this.allDays.forEach(day => {
-                if (counter % daysToRemove === 0) {
-                    days.push(day);
+            const smoothingFactorComments = Math.round(numDaysComments/50);
+            const smoothingFactorSubmitted = Math.round(numDaysSubmitted/50);
+
+            let counterComments = 0;
+            let counterSubmitted = 0;
+            let daysComments = [];
+            let daysSubmitted = [];
+
+            this.allDaysComments.forEach(day => {
+                if (counterComments % smoothingFactorComments === 0) {
+                    daysComments.push(day);
                 }
-                counter++;
+                counterComments++;
             });
 
-            this.days = days;
+            this.allDaysSubmitted.forEach(day => {
+                if (counterSubmitted % smoothingFactorSubmitted === 0) {
+                    daysSubmitted.push(day);
+                }
+                counterSubmitted++;
+            });
+
+            this.daysComments = daysComments;
+            this.daysSubmitted = daysSubmitted;
         },
         cumulative() {
-
             let cumulativeNumComments = 0;
             let cumulativeCommentKarma = 0;
             let cumulativeNumSubmitted = 0;
             let cumulativeSubmittedKarma = 0;
 
-            this.allDays.forEach(day => {
+            this.allDaysComments.forEach(day => {
                 cumulativeNumComments += day.numComments;
                 cumulativeCommentKarma += day.commentKarma;
-                cumulativeNumSubmitted += day.numSubmitted;
-                cumulativeSubmittedKarma += day.submittedKarma;
                 day.cumulativeNumComments = cumulativeNumComments;
                 day.cumulativeCommentKarma = cumulativeCommentKarma;
+            });
+
+            this.allDaysSubmitted.forEach(day => {
+                cumulativeNumSubmitted += day.numSubmitted;
+                cumulativeSubmittedKarma += day.submittedKarma;
                 day.cumulativeNumSubmitted = cumulativeNumSubmitted;
                 day.cumulativeSubmittedKarma = cumulativeSubmittedKarma;
             });
