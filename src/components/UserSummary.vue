@@ -181,7 +181,10 @@ export default {
     },
     computed: {
         topSubreddits() {
-            if (this.isLoading) { this.newUser = true; }
+            if (this.isLoading) {
+                this.newUser = true;
+                return;
+            }
 
             if (!this.comments.length || isNaN(this.numSubreddits)) return;
 
@@ -269,26 +272,36 @@ export default {
             this.submittedKarma = 0;
             this.subreddits = {};
 
-            let days = this.createSequenceOfDays(
-                moment(1000 * this.comments[this.comments.length - 1].data.created_utc).format('YYYY-MM-DD'), // beginning (end of arr)
-                moment(1000 * this.comments[0].data.created_utc).format('YYYY-MM-DD') // end (beginning of arr)
-            );
+            let days;
             let daysWithComments = [];
-
             let arrIndex = 0;
+
+            // Determine the first day was from a submission or comment
+            if (!this.submitted || moment(1000 * this.comments[this.comments.length - 1].data.created_utc).unix() <= moment(1000 * this.submitted[this.submitted.length - 1].data.created_utc).unix() ) {
+                // Comment was first
+                days = this.createSequenceOfDays(
+                    moment(1000 * this.comments[this.comments.length - 1].data.created_utc).format('YYYY-MM-DD'), // most recent (end of arr)
+                    moment(1000 * this.comments[0].data.created_utc).format('YYYY-MM-DD') // earliest (beginning of arr)
+                );
+            } else {
+                // Submission was first
+                days = this.createSequenceOfDays(
+                    moment(1000 * this.submitted[this.submitted.length - 1].data.created_utc).format('YYYY-MM-DD'), // most recent (end of arr)
+                    moment(1000 * this.submitted[0].data.created_utc).format('YYYY-MM-DD') // earliest (beginning of arr)
+                );
+            }
 
             // Comments
             this.comments.slice(0).reverse().forEach(item => {
-                daysWithComments.push(item);
-
                 this.commentKarma += item.data.score;
+
+                daysWithComments.push(item);
                 let day = moment(1000 * item.data.created_utc).format('YYYY-MM-DD');
 
                 // Find the day in "days" array of objects then add the values.
                 // There can be multiple items in the array with the same day.
 
-                let newIndex = days.map(function (item) { return item.day; }).indexOf(day);
-
+                let newIndex = days.findIndex(item => item.day === day);
                 if (newIndex === arrIndex) {
                     newIndex++;
                 }
@@ -311,11 +324,11 @@ export default {
 
             // Submissions
             this.submitted.slice(0).reverse().forEach(item => {
+                this.submittedKarma += item.data.score;
 
                 let day = moment(1000 * item.data.created_utc).format('YYYY-MM-DD');
 
-                let newIndex = days.map(function (item) { return item.day; }).indexOf(day);
-
+                let newIndex = days.findIndex(item => item.day === day);
                 if (newIndex === arrIndex) {
                     newIndex++;
                 }
@@ -326,7 +339,6 @@ export default {
                     days[arrIndex].submittedKarma += item.data.score;
                 }
 
-                this.submittedKarma += item.data.score;
                 if (this.subreddits.hasOwnProperty(item.data.subreddit)) {
                     this.subreddits[item.data.subreddit] += 1;
                 } else {
