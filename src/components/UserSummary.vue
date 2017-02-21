@@ -274,17 +274,12 @@ export default {
             this.submittedKarma = 0;
             this.subreddits = {};
 
-            let daysComments = this.createSequenceOfDays(
+            // days comments
+            let days = this.createSequenceOfDays(
                 moment(1000 * this.comments[this.comments.length - 1].data.created_utc).format('YYYY-MM-DD'), // most recent (end of arr)
                 moment(1000 * this.comments[0].data.created_utc).format('YYYY-MM-DD') // earliest (beginning of arr)
             );
-            let daysSubmitted = [];
-            if (this.submitted) {
-                daysSubmitted = this.createSequenceOfDays(
-                    moment(1000 * this.submitted[this.submitted.length - 1].data.created_utc).format('YYYY-MM-DD'), // most recent (end of arr)
-                    moment(1000 * this.submitted[0].data.created_utc).format('YYYY-MM-DD') // earliest (beginning of arr)
-                );
-            }
+
             let daysWithComments = [];
             let arrIndex = 0;
 
@@ -298,16 +293,16 @@ export default {
                 // Find the day in "days" array of objects then add the values.
                 // There can be multiple items in the array with the same day.
 
-                let newIndex = daysComments.findIndex(item => item.day === day);
+                let newIndex = days.findIndex(item => item.day === day);
                 if (newIndex === arrIndex) {
                     newIndex++;
                 }
                 arrIndex = newIndex;
 
-                if (daysComments[arrIndex]) {
-                    daysComments[arrIndex].numComments += 1;
-                    daysComments[arrIndex].commentKarma += item.data.score;
-                    daysComments[arrIndex].avgControversy = this.calculateControversiality(daysWithComments);
+                if (days[arrIndex]) {
+                    days[arrIndex].numComments += 1;
+                    days[arrIndex].commentKarma += item.data.score;
+                    days[arrIndex].avgControversy = this.calculateControversiality(daysWithComments);
                 }
 
                 if (this.subreddits.hasOwnProperty(item.data.subreddit)) {
@@ -317,7 +312,16 @@ export default {
                 }
             });
 
+            this.allDaysComments = days.slice(0);
+
             arrIndex = 0; // reset
+            days = []; // reset
+            if (this.submitted) {
+                days = this.createSequenceOfDays(
+                    moment(1000 * this.submitted[this.submitted.length - 1].data.created_utc).format('YYYY-MM-DD'), // most recent (end of arr)
+                    moment(1000 * this.submitted[0].data.created_utc).format('YYYY-MM-DD') // earliest (beginning of arr)
+                );
+            }
 
             // Submissions
             this.submitted.slice(0).reverse().forEach(item => {
@@ -325,15 +329,15 @@ export default {
 
                 let day = moment(1000 * item.data.created_utc).format('YYYY-MM-DD');
 
-                let newIndex = daysSubmitted.findIndex(item => item.day === day);
+                let newIndex = days.findIndex(item => item.day === day);
                 if (newIndex === arrIndex) {
                     newIndex++;
                 }
                 arrIndex = newIndex;
 
-                if (daysSubmitted[arrIndex]) {
-                    daysSubmitted[arrIndex].numSubmitted += 1;
-                    daysSubmitted[arrIndex].submittedKarma += item.data.score;
+                if (days[arrIndex]) {
+                    days[arrIndex].numSubmitted += 1;
+                    days[arrIndex].submittedKarma += item.data.score;
                 }
 
                 if (this.subreddits.hasOwnProperty(item.data.subreddit)) {
@@ -343,8 +347,7 @@ export default {
                 }
             });
 
-            this.allDaysComments = daysComments.slice(0);
-            this.allDaysSubmitted = daysSubmitted.slice(0);
+            this.allDaysSubmitted = days.slice(0);
             this.smoothGraph();
             this.cumulative();
 
@@ -508,40 +511,44 @@ export default {
             }
         },
         smoothGraph() {
-            let numDaysComments = this.allDaysComments.length;
-            let numDaysSubmitted = this.allDaysSubmitted.length;
+            let numDays = this.allDaysComments.length;
 
-            if (numDaysComments < 50) {
-                numDaysComments = 50;
-            }
-            if (numDaysSubmitted < 50) {
-                numDaysSubmitted = 50;
+            if (numDays < 50) {
+                numDays = 50;
             }
 
-            const smoothingFactorComments = Math.round(numDaysComments/50);
-            const smoothingFactorSubmitted = Math.round(numDaysSubmitted/50);
+            let smoothingFactor = Math.round(numDays/50);
 
-            let counterComments = 0;
+            let counter = 0;
             let counterSubmitted = 0;
-            let daysComments = [];
-            let daysSubmitted = [];
+            let days = [];
 
             this.allDaysComments.forEach(day => {
-                if (counterComments % smoothingFactorComments === 0) {
-                    daysComments.push(day);
+                if (counter % smoothingFactor === 0) {
+                    days.push(day);
                 }
-                counterComments++;
+                counter++;
             });
+
+            this.daysComments = days;
+
+            // reset
+            days = [];
+            counter = 0;
+            numDays = this.allDaysSubmitted.length;
+            if (numDays < 50) {
+                numDays = 50;
+            }
+            smoothingFactor = Math.round(numDays/50);
 
             this.allDaysSubmitted.forEach(day => {
-                if (counterSubmitted % smoothingFactorSubmitted === 0) {
-                    daysSubmitted.push(day);
+                if (counter % smoothingFactor === 0) {
+                    days.push(day);
                 }
-                counterSubmitted++;
+                counter++;
             });
 
-            this.daysComments = daysComments;
-            this.daysSubmitted = daysSubmitted;
+            this.daysSubmitted = days;
         },
         cumulative() {
             let cumulativeNumComments = 0;
