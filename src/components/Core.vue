@@ -93,7 +93,7 @@ export default {
       },
       finishedLoading() {
           if (!this.comments.length && !this.submitted.length) return;
-          if (this.finished.comments && this.finished.submitted) return true;
+          return this.finished.comments && this.finished.submitted;
       }
   },
   methods: {

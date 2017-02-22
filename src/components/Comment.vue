@@ -1,5 +1,6 @@
 <template>
     <div>
+        <h3><a target="_blank" :href="link">{{ type }} comment</a></h3>
         <small v-if="data" class="comment-info">
             /r/{{data.subreddit}} ·
             <span :class="color">{{data.score}}</span> ·
@@ -26,7 +27,7 @@ var moment = require('moment');
 
 export default {
   name: 'comment',
-  props: ['data'],
+  props: ['data', 'type'],
   computed: {
       compiledMarkdown() {
           if (!this.data) return 'N/A';
@@ -39,6 +40,10 @@ export default {
       color() {
           if (!this.data) return;
           return this.data.score >= 1 ? 'orangered-color' : 'periwinkle-color';
+      },
+      link() {
+          if (!this.data) return;
+          return `https://www.reddit.com/r/${this.data.subreddit}/comments/${this.data.link_id.split('_').pop().trim()}/title/${this.data.id}/`;
       }
   }
 }
@@ -59,6 +64,17 @@ export default {
         code {
             background-color: #3e3e7b;
             color: white;
+        }
+
+        ul {
+            list-style-type: initial;
+            padding-left: 1rem;
+
+            li:first-child {
+                font-weight: 400;
+                background: none;
+                box-shadow: none;
+            }
         }
     }
 

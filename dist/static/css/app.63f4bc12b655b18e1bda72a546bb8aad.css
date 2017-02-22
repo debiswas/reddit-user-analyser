@@ -704,6 +704,15 @@ input:checked + .slider:before {
     background-color: #3e3e7b;
     color: white;
 }
+.comment ul {
+    list-style-type: initial;
+    padding-left: 1rem;
+}
+.comment ul li:first-child {
+      font-weight: 400;
+      background: none;
+      box-shadow: none;
+}
 .orangered-color {
   color: #ff9453;
   font-weight: bold;
@@ -729,4 +738,4 @@ a:hover {
     background-color: rgba(0, 150, 255, 0.1);
 }
 
-/*# sourceMappingURL=app.4e67180c70e7cb3516bc37e48ae9963e.css.map*/
+/*# sourceMappingURL=app.63f4bc12b655b18e1bda72a546bb8aad.css.map*/
