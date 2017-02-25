@@ -314,7 +314,7 @@ export default {
 
             arrIndex = 0; // reset
             days = []; // reset
-            if (this.submitted) {
+            if (this.submitted.length) {
                 days = this.createSequenceOfDays(
                     moment(1000 * this.submitted[this.submitted.length - 1].data.created_utc).format('YYYY-MM-DD'), // most recent (end of arr)
                     moment(1000 * this.submitted[0].data.created_utc).format('YYYY-MM-DD') // earliest (beginning of arr)
